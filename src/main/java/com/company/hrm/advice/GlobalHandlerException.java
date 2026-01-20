@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.company.hrm.exception.DuplicateRecordException;
+import com.company.hrm.exception.ResourceNotFoundException;
 import com.company.hrm.util.APIResponse;
 
 @RestControllerAdvice
@@ -19,5 +20,14 @@ public class GlobalHandlerException {
 				            		 ex.getMessage(),
 				            		 null
 				            ));
+	}
+	
+	@ExceptionHandler(ResourceNotFoundException.class)
+	public ResponseEntity<APIResponse> handleResourceException(ResourceNotFoundException ex){
+		return ResponseEntity.status(HttpStatus.NOT_FOUND)
+				             .body(new APIResponse<>(
+				            		 "FAIL",
+				            		 ex.getMessage(),
+				            		 null));
 	}
 }
